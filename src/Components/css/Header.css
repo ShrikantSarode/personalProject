@@ -1,0 +1,144 @@
+.header-container {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+  
+  .nav-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+  }
+  
+  .nav-list {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    position: relative;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background: rgba(52, 152, 219, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .nav-link.active {
+    background: #3498db;
+    color: white;
+  }
+  
+  .nav-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-link:hover .nav-icon {
+    transform: scale(1.2);
+  }
+  
+  .nav-text {
+    position: relative;
+  }
+  
+  .nav-text::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #3498db;
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover .nav-text::after {
+    width: 100%;
+  }
+  
+  .login-link {
+    background: #3498db;
+    color: white;
+    border-radius: 20px;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .login-link:hover {
+    background: #2980b9;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  }
+  
+  /* Animation for mounting */
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .header-container {
+    animation: slideDown 0.5s ease forwards;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .nav-wrapper {
+      padding: 0.5rem 1rem;
+    }
+  
+    .nav-list {
+      gap: 0.5rem;
+    }
+  
+    .nav-link {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+    }
+  
+    .nav-icon {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .header-container {
+      background: rgba(30, 41, 59, 0.95);
+    }
+  
+    .nav-link {
+      color: #e2e8f0;
+    }
+  
+    .nav-link:hover {
+      background: rgba(52, 152, 219, 0.2);
+    }
+  }
+  
