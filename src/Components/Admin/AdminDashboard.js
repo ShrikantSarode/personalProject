@@ -42,7 +42,7 @@ export default function AdminDashboard() {
   ]);
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container container-fluid">
       {/* Sidebar */}
       <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         {/* <div className="sidebar-header">

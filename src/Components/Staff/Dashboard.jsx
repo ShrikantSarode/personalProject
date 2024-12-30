@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is included
+// ... existing imports remain the same
+import { useState } from "react";
+import "./css/Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Toggle the sidebar's visibility
 
-  // Toggle the sidebar's visibility
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -40,97 +40,51 @@ export default function Dashboard() {
   ]);
 
   return (
-    <div className="container-fluid ms-5">
-      {/* Menu Button to toggle Sidebar */}
-      <div className="row">
-        {/* Main Content */}
-        <div className="col-xl-10 mt-1">
-          <div className="row align-items-center">
-            {/* "Hi, Shrikant" Span */}
-            <div className="col-xl-6">
-              <span
-                style={{
-                  fontSize: "30px",
-                  color: "#343a40",
-                  padding: "10px",
-                }}
-              >
-                Hi, Shrikant
-              </span>
-            </div>
-            <div className="col-xl-6 text-end pe-5">
-              {/* Logout Button */}
-              <button
-                className="btn btn-outline-warning ms-3"
-                onClick={handleLogout()}
-              >
-                Logout
-              </button>
-            </div>
+    <div className="dashboard-container">
+      <div className="dashboard-content">
+        <div className="dashboard-header">
+          <div className="welcome-section">
+            <span className="welcome-text">Hi, Shrikant</span>
           </div>
-
-          {/* Main Dashboard Content */}
-          <div className="row mt-4">
-            <div className="col-xl-6">
-              <h4 style={{ fontSize: "30px" }}>Staff Dashboard</h4>
-            </div>
-            <div className="col-xl-6 text-end pe-5">
-              <input type="date" name="" id="" className="p-2" />
-            </div>
+          <div className="header-actions">
+            <button className="logout-btn" onClick={handleLogout}>
+              <span>Logout</span>
+              <i className="fas fa-sign-out-alt"></i>
+            </button>
           </div>
+        </div>
 
-          {/* Stats Boxes */}
-          <div className="row">
-            <div
-              className="col-xl-3 ms-5 mt-5 p-2 text-center"
-              style={{ border: "1px solid lightgrey", borderRadius: "7px" }}
-            >
-              <h4>0</h4>
-              <p>Total Appointments</p>
-            </div>
-            <div
-              className="col-xl-3 ms-5 mt-5 p-2 text-center"
-              style={{ border: "1px solid lightgrey", borderRadius: "7px" }}
-            >
-              <h4 style={{ color: "lightgreen" }}>0</h4>
-              <p>Approved Appointments</p>
-            </div>
-            <div
-              className="col-xl-3 ms-5 mt-5 p-2 text-center"
-              style={{ border: "1px solid lightgrey", borderRadius: "7px" }}
-            >
-              <h4 style={{ color: "orange" }}>0</h4>
-              <p>Pending Appointments</p>
-            </div>
-            <div
-              className="col-xl-3 ms-5 mt-5 mb-5 p-2 text-center"
-              style={{ border: "1px solid lightgrey", borderRadius: "7px" }}
-            >
-              <h4 style={{ color: "blue" }}>15000/-</h4>
-              <p>Revenue</p>
-            </div>
-            <div
-              className="col-xl-3 ms-5 mt-5 mb-5 p-2 text-center"
-              style={{ border: "1px solid lightgrey", borderRadius: "7px" }}
-            >
-              <h4 style={{ color: "violet" }}>1</h4>
-              <p>Customers</p>
-            </div>
-            <div
-              className="col-xl-3 ms-5 mt-5 mb-5 p-2 text-center"
-              style={{ border: "1px solid lightgrey", borderRadius: "7px" }}
-            >
-              <h4 style={{ color: "violet" }}>1</h4>
-              <p>Completed Appointments</p>
-            </div>
+        <div className="dashboard-title-section">
+          <h4 className="dashboard-title">Staff Dashboard</h4>
+          <div className="date-picker">
+            <input type="date" className="custom-date-input" />
           </div>
+        </div>
 
-          {/* Upcoming Appointments Table */}
-          <div className="row">
-            <h4>Upcoming Appointments</h4>
+        <div className="stats-container">
+          {[
+            { title: "Total Appointments", value: "0", color: "#6366f1" },
+            { title: "Approved Appointments", value: "0", color: "#10b981" },
+            { title: "Pending Appointments", value: "0", color: "#f59e0b" },
+            { title: "Revenue", value: "15000/-", color: "#3b82f6" },
+            { title: "Customers", value: "1", color: "#8b5cf6" },
+            { title: "Completed Appointments", value: "1", color: "#ec4899" },
+          ].map((stat, index) => (
+            <div
+              className="stat-card"
+              key={index}
+              style={{ "--delay": `${index * 0.1}s` }}
+            >
+              <h4 style={{ color: stat.color }}>{stat.value}</h4>
+              <p>{stat.title}</p>
+            </div>
+          ))}
+        </div>
 
-            {/* Table to display the To-Do List */}
-            <table className="table table-striped mt-4">
+        <div className="appointments-section">
+          <h4 className="section-title">Upcoming Appointments</h4>
+          <div className="table-container">
+            <table className="custom-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -151,8 +105,20 @@ export default function Dashboard() {
                     <td>{todo.customer}</td>
                     <td>{todo.service}</td>
                     <td>{todo.duration}</td>
-                    <td>{todo.status}</td>
-                    <td>{todo.payment}</td>
+                    <td>
+                      <span
+                        className={`status-badge ${todo.status.toLowerCase()}`}
+                      >
+                        {todo.status}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={`payment-badge ${todo.payment.toLowerCase()}`}
+                      >
+                        {todo.payment}
+                      </span>
+                    </td>
                     <td>{todo.createdDate}</td>
                   </tr>
                 ))}
@@ -163,55 +129,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-}
-
-{
-  /* <div className="col-xl-2">
-          <button
-            className="btn btn-warning mt-2"
-            type="button"
-            onClick={toggleSidebar}
-          >
-            Menu
-          </button>
-
-         
-          <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-            <div className="sidebar-header">
-              <h5>Dashboard</h5>
-              <button className="close-btn" onClick={toggleSidebar}>
-                &times;
-              </button>
-            </div>
-            <div className="sidebar-body">
-              <ul className="nav n">
-                <li className="nav-item n-t">
-                  <Link className="nav-link n-l" to="/staff/staff-dashboard">
-                    Dashboard
-                  </Link>
-                </li>
-                <li className="nav-item n-t">
-                  <Link className="nav-link n-l" to="/staff/staff-appointments">
-                    Appointments
-                  </Link>
-                </li>
-                <li className="nav-item n-t">
-                  <Link className="nav-link n-l" to="/staff/staff-customer">
-                    Customer
-                  </Link>
-                </li>
-                <li className="nav-item n-t">
-                  <Link className="nav-link n-l" to="/staff/staff-payment">
-                    Payment
-                  </Link>
-                </li>
-                <li className="nav-item n-t">
-                  <Link className="nav-link n-l" to="/staff/staff-profile">
-                    My Profile
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div> */
 }

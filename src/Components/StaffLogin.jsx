@@ -1,39 +1,73 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./css/StaffLogin.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./css/StaffLogin.css";
 
 const StaffLogin = () => {
-  // State to store the form data
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
-  // Handle form submission
   const handleLogin = (e) => {
     e.preventDefault();
+    
     if (email === "" || password === "") {
-      setError("Please fill in all fields.");
+      toast.error('Please fill in all fields.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: 'toast-message'
+      });
       return;
     }
 
-    // Navigate to the staff dashboard or home page after successful login (placeholder)
-    navigate("/staff/staff-dashboard");
+    if (email === 'staff@example.com' && password === 'staff123') {
+      localStorage.setItem('staffAuth', 'true');
+      
+      toast.success('Login successful! Redirecting...', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: 'toast-message'
+      });
+
+      setTimeout(() => {
+        navigate("/staff/staff-dashboard");
+      }, 2000);
+    } else {
+      toast.error('Invalid credentials. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: 'toast-message'
+      });
+    }
   };
 
-  // Handle the change in email and password inputs
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   return (
     <>
-      <div className="text-center d-flex justify-content-center">
+      <div className="text-center d-flex justify-content-center mb-5">
         <div className="login-form text-center mt-5">
-          <h2>Staff Login</h2>
+          <h2 className="login-title">Staff Login</h2>
 
-          {error && <div className="error-message">{error}</div>}
-
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} className="login-form-container">
             <div className="input-group">
               <label>Email:</label>
               <input
@@ -41,6 +75,7 @@ const StaffLogin = () => {
                 value={email}
                 onChange={handleEmailChange}
                 placeholder="Enter your email"
+                className="input-field"
                 required
               />
             </div>
@@ -52,6 +87,7 @@ const StaffLogin = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 placeholder="Enter your password"
+                className="input-field"
                 required
               />
             </div>
@@ -62,13 +98,14 @@ const StaffLogin = () => {
           </form>
 
           <div className="forgot-password">
-            <Link to="/forgot-password">Forgot Password?</Link> <br />
-            <Link className="mt-3" to="/signup">
+            <Link to="/forgot-password" className="forgot-link">Forgot Password?</Link>
+            <Link to="/signup" className="signup-link">
               I don't have an Account 🤦‍♂️
             </Link>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

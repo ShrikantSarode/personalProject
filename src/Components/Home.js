@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import home1 from "../assest/home.jpeg";
 import s1 from "../assest/Services/svgtopng/hair.png";
@@ -15,6 +15,11 @@ import s11 from "../assest/salon2.jpg";
 import "./css/Home.css";
 
 export default function Home() {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="hero-section">

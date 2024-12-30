@@ -23,6 +23,7 @@ import FavoriteService from "./Components/User/FavoriteService";
 import UserProfile from "./Components/User/UserProfile";
 import SignUp from "./Components/SignUp";
 import ForgetPassword from "./ForgetPassword";
+import Payment from "./Components/Staff/Payment";
 
 const projectrouter = createBrowserRouter([
   {
@@ -106,6 +107,10 @@ const projectrouter = createBrowserRouter([
       {
         path: "staff-profile",
         element: <StaffProfile />,
+      },
+      {
+        path: "staff-payment",
+        element: <Payment />,
       },
     ],
   },

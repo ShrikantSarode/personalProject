@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './css/About.css';
 // import salonInterior from '../assets/salon-interior.jpg';
 // import teamPhoto from '../assets/team-photo.jpg';
 // import founderPhoto from '../assets/founder.jpg';
 
 const About = () => {
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
   return (
     <div className="about-container">
       <div className="hero-section">

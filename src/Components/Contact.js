@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/Contact.css';
 
 const ContactUs = () => {
@@ -22,6 +22,10 @@ const ContactUs = () => {
       [e.target.name]: e.target.value
     });
   };
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   return (
     <div className="contact-container">

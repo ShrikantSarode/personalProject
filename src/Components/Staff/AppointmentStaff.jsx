@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is included
+import "./css/AppointmentStaff.css";
 
 export default function AppointmentStaff() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
-  // Toggle the sidebar's visibility
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const [todos] = useState([
+  const [appointments, setAppointments] = useState([
     {
       id: 1,
       date: "2024-12-01",
+      time: "10:00",
       customer: "John Wick",
       service: "Haircut",
       duration: "30 minutes",
@@ -24,6 +21,7 @@ export default function AppointmentStaff() {
     {
       id: 2,
       date: "2024-12-02",
+      time: "14:00",
       customer: "James Bond",
       service: "Facial",
       duration: "1 hour",
@@ -31,199 +29,283 @@ export default function AppointmentStaff() {
       payment: "Pending",
       createdDate: "2024-11-26",
     },
-    // Add more items as needed
   ]);
 
+  const [formData, setFormData] = useState({
+    date: "",
+    time: "",
+    customer: "",
+    service: "",
+    duration: "",
+    status: "",
+    payment: "",
+  });
+
+  const handleEdit = (appointment) => {
+    setIsEditing(true);
+    setEditingId(appointment.id);
+    setFormData({
+      date: appointment.date,
+      time: appointment.time,
+      customer: appointment.customer,
+      service: appointment.service,
+      duration: appointment.duration,
+      status: appointment.status,
+      payment: appointment.payment,
+    });
+    setShowForm(true);
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (isEditing) {
+      setAppointments(
+        appointments.map((appointment) =>
+          appointment.id === editingId
+            ? { ...appointment, ...formData }
+            : appointment
+        )
+      );
+    } else {
+      const newAppointment = {
+        id: appointments.length + 1,
+        ...formData,
+        createdDate: new Date().toISOString().split("T")[0],
+      };
+      setAppointments([...appointments, newAppointment]);
+    }
+
+    setShowForm(false);
+    setIsEditing(false);
+    setEditingId(null);
+    setFormData({
+      date: "",
+      time: "",
+      customer: "",
+      service: "",
+      duration: "",
+      status: "",
+      payment: "",
+    });
+  };
+
   return (
-    <>
-      <div className="container-fluid ms-5">
-        {/* Menu Button to toggle Sidebar */}
-        <div className="row">
-          
+    <div className="container-fluid px-4">
+      <div className="row">
+        <div className="col-12 mt-3">
+          {/* Header */}
+          <div className="d-flex justify-content-between align-items-center">
+            <h2 className="text-dark">Hi, Shrikant</h2>
+            <button className="btn btn-outline-warning">Logout</button>
+          </div>
 
-          {/* Main Content Area */}
-          <div className="col-xl-10 mt-1">
-            <div className="row align-items-center">
-              {/* "Hi, Shrikant" Span */}
-              <div className="col-xl-6">
-                <span
-                  style={{
-                    fontSize: "30px",
-                    color: "#343a40",
-                    padding: "10px",
-                  }}
-                >
-                  Hi, Shrikant
-                </span>
-              </div>
-              <div className="col-xl-6 text-end pe-5">
-                {/* Logout Button */}
-                <button className="btn btn-outline-warning ms-3">Logout</button>
-              </div>
-            </div>
+          {/* Title and Add Button */}
+          <div className="d-flex justify-content-between align-items-center mt-4">
+            <h4>Manage Appointments</h4>
+            <button className="btn btn-success" onClick={() => setShowForm(true)}>
+              + Add New
+            </button>
+          </div>
 
-            {/* Main Dashboard Content */}
-            <div className="row mt-4">
-              <div className="col-xl-6">
-                <h4>Manage Appointments</h4>
-              </div>
-              <div className="col-xl-6 text-end pe-5">
-                <button className="btn btn-success">+ Add New</button>
-              </div>
-            </div>
-
-            {/* Upcoming Appointments Table */}
-            <div className="row">
-              <div className="col-xl-3 p-2 me-5 mt-5">
-                <label className="mb-3">Appointment Date:</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  id="date"
-                  name="date"
-                />
-              </div>
-              <div className="col-xl-3 mt-5 p-2 me-5">
-                <label className="mb-3">Customer Name:</label>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="col-xl-3 mt-5">
-                <label htmlFor="">Services:</label>
-                <div class="input-group mb-3">
-                  <select className="form-select mt-4" id="inputGroupSelect01">
-                    <option selected>Select Services</option>
-                    <option value="1">Hair Cut</option>
-                    <option value="2">Fade Haircut</option>
-                    <option value="3">Curls</option>
-                    <option value="4">Hair Color</option>
-                    <option value="5">Espresso</option>
-                    <option value="6">Sunflower Blonde</option>
-                  </select>
-                </div>
-              </div>
-              <div className="col-xl-3 mt-3 p-2 me-5">
-                <label htmlFor="">Status:</label>
-                <div class="input-group mb-3">
-                  <select className="form-select mt-4" id="inputGroupSelect01">
-                    <option selected>Select Status</option>
-                    <option value="1">All</option>
-                    <option value="2">Approved</option>
-                    <option value="3">Pending</option>
-                    <option value="4">Cancelled</option>
-                    <option value="5">Rejected</option>
-                    <option value="6">Completed</option>
-                  </select>
-                </div>
-              </div>
-              {/* search */}
-              <div className="row">
-                <div className="col-xl-6">
-                  <form class="d-flex" role="search">
-                    <input
-                      className="form-control me-2"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
-                    <button className="btn btn-success" type="submit">
-                      Apply
+          {/* Appointment Cards */}
+          <div className="row mt-4">
+            {appointments.map((appointment) => (
+              <div className="col-md-6 col-lg-4 mb-4" key={appointment.id}>
+                <div className="card">
+                  <div className="card-header bg-light">
+                    <h5 className="card-title">Appointment #{appointment.id}</h5>
+                  </div>
+                  <div className="card-body">
+                    <p><strong>Date:</strong> {appointment.date}</p>
+                    <p><strong>Time:</strong> {appointment.time}</p>
+                    <p><strong>Customer:</strong> {appointment.customer}</p>
+                    <p><strong>Service:</strong> {appointment.service}</p>
+                    <p><strong>Duration:</strong> {appointment.duration}</p>
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      <span
+                        className={`badge ${
+                          appointment.status === "Completed"
+                            ? "bg-success"
+                            : "bg-warning"
+                        }`}
+                      >
+                        {appointment.status}
+                      </span>
+                    </p>
+                    <p>
+                      <strong>Payment:</strong>{" "}
+                      <span
+                        className={`badge ${
+                          appointment.payment === "Paid"
+                            ? "bg-primary"
+                            : "bg-danger"
+                        }`}
+                      >
+                        {appointment.payment}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="card-footer text-end">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => handleEdit(appointment)}
+                    >
+                      Edit
                     </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Form Modal */}
+          {showForm && (
+            <div className="modal-overlay">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5>{isEditing ? "Edit Appointment" : "New Appointment"}</h5>
+                    <button
+                      className="btn-close"
+                      onClick={() => {
+                        setShowForm(false);
+                        setIsEditing(false);
+                        setEditingId(null);
+                      }}
+                    ></button>
+                  </div>
+                  <form onSubmit={handleFormSubmit}>
+                    <div className="modal-body">
+                      <div className="mb-3">
+                        <label className="form-label">Customer Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="customer"
+                          value={formData.customer}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Date</label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          name="date"
+                          value={formData.date}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Time</label>
+                        <input
+                          type="time"
+                          className="form-control"
+                          name="time"
+                          value={formData.time}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Service</label>
+                        <select
+                          className="form-select"
+                          name="service"
+                          value={formData.service}
+                          onChange={handleInputChange}
+                          required
+                        >
+                          <option value="">Select Service</option>
+                          <option value="Haircut">Hair Cut</option>
+                          <option value="Fade Haircut">Fade Haircut</option>
+                          <option value="Curls">Curls</option>
+                          <option value="Hair Color">Hair Color</option>
+                        </select>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Duration</label>
+                        <select
+                          className="form-select"
+                          name="duration"
+                          value={formData.duration}
+                          onChange={handleInputChange}
+                          required
+                        >
+                          <option value="">Select Duration</option>
+                          <option value="30 minutes">30 minutes</option>
+                          <option value="1 hour">1 hour</option>
+                          <option value="1.5 hours">1.5 hours</option>
+                        </select>
+                      </div>
+                      {isEditing && (
+                        <>
+                          <div className="mb-3">
+                            <label className="form-label">Status</label>
+                            <select
+                              className="form-select"
+                              name="status"
+                              value={formData.status}
+                              onChange={handleInputChange}
+                              required
+                            >
+                              <option value="">Select Status</option>
+                              <option value="Pending">Pending</option>
+                              <option value="Completed">Completed</option>
+                              <option value="Cancelled">Cancelled</option>
+                            </select>
+                          </div>
+                          <div className="mb-3">
+                            <label className="form-label">Payment</label>
+                            <select
+                              className="form-select"
+                              name="payment"
+                              value={formData.payment}
+                              onChange={handleInputChange}
+                              required
+                            >
+                              <option value="">Select Payment Status</option>
+                              <option value="Paid">Paid</option>
+                              <option value="Pending">Pending</option>
+                            </select>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          setShowForm(false);
+                          setIsEditing(false);
+                          setEditingId(null);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button type="submit" className="btn btn-primary">
+                        {isEditing ? "Update" : "Save"} Appointment
+                      </button>
+                    </div>
                   </form>
                 </div>
-                <div className="col-xl-2">
-                  <button className="btn btn-outline-dark" type="submit">
-                    Reset
-                  </button>
-                </div>
-                <div className="col-xl-2 text-end">
-                  <button className="btn btn-warning" type="submit">
-                    Export
-                  </button>
-                </div>
               </div>
-              {/* Table to display the To-Do List */}
-              <table className="table table-striped mt-4">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Service</th>
-                    <th>Duration</th>
-                    <th>Status</th>
-                    <th>Payment</th>
-                    <th>Created Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {todos.map((todo) => (
-                    <tr key={todo.id}>
-                      <td>{todo.id}</td>
-                      <td>{todo.date}</td>
-                      <td>{todo.customer}</td>
-                      <td>{todo.service}</td>
-                      <td>{todo.duration}</td>
-                      <td>{todo.status}</td>
-                      <td>{todo.payment}</td>
-                      <td>{todo.createdDate}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </div>
-          </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
-
-
-// <div className="col-xl-2">
-//             <button
-//               className="btn btn-warning mt-2"
-//               type="button"
-//               onClick={toggleSidebar}
-//             >
-//               Menu
-//             </button>
-
-           
-//             <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-//               <div className="sidebar-header">
-//                 <h5>Dashboard</h5>
-//                 <button className="close-btn" onClick={toggleSidebar}>
-//                   &times;
-//                 </button>
-//               </div>
-//               <div className="sidebar-body">
-//                 <ul className="nav n">
-//                   <li className="nav-item n-t">
-//                     <Link className="nav-link n-l" to="/staff/staff-dashboard">
-//                       Dashboard
-//                     </Link>
-//                   </li>
-//                   <li className="nav-item n-t">
-//                     <Link className="nav-link n-l" to="/staff/staff-appointments">
-//                       Appointments
-//                     </Link>
-//                   </li>
-//                   <li className="nav-item n-t">
-//                     <Link className="nav-link n-l" to="/staff/staff-customer">
-//                       Customer
-//                     </Link>
-//                   </li>
-//                   <li className="nav-item n-t">
-//                     <Link className="nav-link n-l" to="/staff/staff-payment">
-//                       Payment
-//                     </Link>
-//                   </li>
-//                   <li className="nav-item n-t">
-//                     <Link className="nav-link n-l" to="/staff/staff-profile">
-//                       My Profile
-//                     </Link>
-//                   </li>
-//                 </ul>
-//               </div>
-//             </div>
-//           </div>
