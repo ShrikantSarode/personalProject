@@ -9,36 +9,43 @@ export default function FavoriteService() {
     {
       id: 1,
       name: "Hair Styling",
-      // image: "/images/hair-styling.jpg",
-      price: "$50",
+      price: "₹100",
       duration: "45 mins",
     },
     {
       id: 2,
       name: "Facial Treatment",
-      // image: "/images/facial.jpg",
-      price: "$75",
+      price: "₹250",
       duration: "60 mins",
     },
     {
       id: 3,
       name: "Manicure",
-      // image: "/images/manicure.jpg",
-      price: "$35",
+      price: "₹250",
       duration: "30 mins",
     },
     {
       id: 4,
       name: "Pedicure",
-      // image: "/images/pedicure.jpg",
-      price: "$40",
+      price: "₹250",
       duration: "45 mins",
     },
     {
       id: 5,
       name: "Massage",
-      // image: "/images/massage.jpg",
-      price: "$90",
+      price: "₹1000",
+      duration: "60 mins",
+    },
+    {
+      id: 6,
+      name: "Birdal MakeUp",
+      price: "₹1000",
+      duration: "60 mins",
+    },
+    {
+      id: 7,
+      name: "Nail Art",
+      price: "₹1000",
       duration: "60 mins",
     },
   ];
@@ -60,8 +67,9 @@ export default function FavoriteService() {
   );
 
   return (
-    <div className="favorite-services-container text-center ">
-      <div className="services-header ">
+    <div className="favorite-services-container text-center">
+      {/* Header Section */}
+      <div className="services-header">
         <h2>Salon Services</h2>
         <div className="search-bar">
           <input
@@ -73,11 +81,11 @@ export default function FavoriteService() {
         </div>
       </div>
 
+      {/* Services List */}
       <div className="services-grid d-flex justify-content-around">
         {filteredServices.map((service) => (
-          <div key={service.id} className="service-card">
+          <div key={service.id} className="service-card text-center">
             <div className="service-image">
-              {/* <img src={service.image} alt={service.name} /> */}
               <button
                 className={`favorite-button ${
                   favorites.some((fav) => fav.id === service.id) ? "active" : ""
@@ -96,13 +104,13 @@ export default function FavoriteService() {
         ))}
       </div>
 
+      {/* Favorites Section */}
       <div className="favorites-section">
         <h3>Your Favorite Services</h3>
         <div className="favorites-grid">
           {favorites.length > 0 ? (
             favorites.map((favorite) => (
               <div key={favorite.id} className="favorite-item">
-                {/* <img src={favorite.image} alt={favorite.name} /> */}
                 <div className="favorite-info">
                   <h4>{favorite.name}</h4>
                   <p>{favorite.price}</p>

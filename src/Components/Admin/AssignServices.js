@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AssignServices.css";
 
 export default function AssignServices() {
@@ -8,25 +8,116 @@ export default function AssignServices() {
     { id: 3, name: "Manicure", duration: "45 min", price: "₹800" },
   ]);
 
-  const [staff] = useState([
-    { id: 1, name: "Rajesh", expertise: ["Haircut", "Facial"] },
-    { id: 2, name: "Suresh", expertise: ["Manicure", "Facial"] },
+  const [staff, setStaff] = useState([
+    {
+      id: 1,
+      name: "Rajesh",
+      expertise: ["Hair Styling", "Hair Coloring"],
+    },
+    {
+      id: 2,
+      name: "Suresh",
+      expertise: ["Facials", "Skin Treatments"],
+    },
+    {
+      id: 3,
+      name: "Priya",
+      expertise: ["Manicure", "Pedicure"],
+    },
+    {
+      id: 4,
+      name: "Anjali",
+      expertise: ["Makeup", "Bridal Makeup"],
+    },
+    {
+      id: 5,
+      name: "Vikram",
+      expertise: ["Massage Therapy", "Aromatherapy"],
+    },
+    {
+      id: 6,
+      name: "Karan",
+      expertise: ["Hair Cutting", "Beard Grooming"],
+    },
+    {
+      id: 7,
+      name: "Neha",
+      expertise: ["Nail Art", "Waxing"],
+    },
   ]);
 
   const [selectedStaff, setSelectedStaff] = useState("");
   const [selectedServices, setSelectedServices] = useState([]);
+  const [toast, setToast] = useState({ show: false, message: "" });
+
+  useEffect(() => {
+    if (toast.show) {
+      const timer = setTimeout(() => {
+        setToast({ show: false, message: "" });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
+  const showToast = (message) => {
+    setToast({ show: true, message });
+  };
 
   const handleServiceAssignment = (e) => {
     e.preventDefault();
-    // Add your API call here to save the assignments
-    console.log({
-      staffId: selectedStaff,
-      assignedServices: selectedServices,
-    });
+
+    if (!selectedStaff) {
+      showToast("Please select a staff member!");
+      return;
+    }
+
+    if (selectedServices.length === 0) {
+      showToast("Please select at least one service to assign!");
+      return;
+    }
+
+    setStaff((prevStaff) =>
+      prevStaff.map((member) =>
+        member.id === parseInt(selectedStaff)
+          ? {
+              ...member,
+              expertise: [
+                ...new Set([
+                  ...member.expertise,
+                  ...selectedServices.map(
+                    (id) => services.find((s) => s.id === id).name
+                  ),
+                ]),
+              ],
+            }
+          : member
+      )
+    );
+
+    setSelectedStaff("");
+    setSelectedServices([]);
+    showToast("Services assigned successfully!");
+  };
+
+  const handleServiceRemoval = (staffId, serviceName) => {
+    setStaff((prevStaff) =>
+      prevStaff.map((member) =>
+        member.id === staffId
+          ? {
+              ...member,
+              expertise: member.expertise.filter(
+                (service) => service !== serviceName
+              ),
+            }
+          : member
+      )
+    );
+    showToast(`Service "${serviceName}" removed from staff member.`);
   };
 
   return (
     <div className="assign-services-container">
+      {toast.show && <div className="toast">{toast.message}</div>}
       <h2>Assign Services to Staff</h2>
 
       <form onSubmit={handleServiceAssignment} className="assignment-form">
@@ -94,7 +185,23 @@ export default function AssignServices() {
             {staff.map((member) => (
               <tr key={member.id}>
                 <td>{member.name}</td>
-                <td>{member.expertise.join(", ")}</td>
+                <td>
+                  {member.expertise.length > 0
+                    ? member.expertise.map((service, index) => (
+                        <div key={index} className="service-entry">
+                          {service}{" "}
+                          <button
+                            onClick={() =>
+                              handleServiceRemoval(member.id, service)
+                            }
+                            className="remove-service-button"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))
+                    : "No services assigned"}
+                </td>
               </tr>
             ))}
           </tbody>

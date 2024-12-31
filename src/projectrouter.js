@@ -24,6 +24,8 @@ import UserProfile from "./Components/User/UserProfile";
 import SignUp from "./Components/SignUp";
 import ForgetPassword from "./ForgetPassword";
 import Payment from "./Components/Staff/Payment";
+import AdminSignUp from "./Components/AdminSignUp";
+import StaffSignUp from "./Components/StaffSignUp";
 
 const projectrouter = createBrowserRouter([
   {
@@ -58,6 +60,14 @@ const projectrouter = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
+      },
+      {
+        path: "/admin-signup",
+        element: <AdminSignUp />,
+      },
+      {
+        path: "/staff-signup",
+        element: <StaffSignUp />,
       },
       {
         path: "/forgot-password",

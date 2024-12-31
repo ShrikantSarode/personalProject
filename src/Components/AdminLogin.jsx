@@ -1,33 +1,37 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [role, setRole] = useState('admin');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [role, setRole] = useState("admin");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     // Clear previous errors
-    setError('');
+    setError("");
+
+    // Retrieve stored admin credentials from localStorage
+    const storedEmail = localStorage.getItem("adminEmail");
+    const storedPassword = localStorage.getItem("adminPassword");
 
     if (!email || !password) {
-      setError('Please fill in all fields.');
+      setError("Please fill in all fields.");
       return;
     }
 
-    // Mock admin credentials - Replace with your actual authentication logic
-    if (email === 'admin@example.com' && password === 'admin123') {
+    // Check credentials against stored values
+    if (email === storedEmail && password === storedPassword) {
       // Store admin authentication token/data if needed
-      localStorage.setItem('adminAuth', 'true');
+      localStorage.setItem("adminAuth", "true");
 
       // Navigate to admin dashboard on successful login
-      navigate('/admin/admin-dashboard');
+      navigate("/admin/admin-dashboard");
     } else {
-      setError('Invalid credentials. Please try again.');
+      setError("Invalid credentials. Please try again.");
     }
   };
 
@@ -39,10 +43,10 @@ const AdminLogin = () => {
     setRole(selectedRole);
 
     // Redirect to appropriate login page based on role
-    if (selectedRole === 'user') {
-      navigate('/login');
-    } else if (selectedRole === 'staff') {
-      navigate('/staff-login');
+    if (selectedRole === "user") {
+      navigate("/login");
+    } else if (selectedRole === "staff") {
+      navigate("/staff-login");
     }
     // If "admin" is selected, stay on the current page
   };
@@ -60,7 +64,7 @@ const AdminLogin = () => {
               type="radio"
               name="role"
               value="user"
-              checked={role === 'user'}
+              checked={role === "user"}
               onChange={handleRoleChange}
             />
             User Login
@@ -70,7 +74,7 @@ const AdminLogin = () => {
               type="radio"
               name="role"
               value="admin"
-              checked={role === 'admin'}
+              checked={role === "admin"}
               onChange={handleRoleChange}
             />
             Admin Login
@@ -80,7 +84,7 @@ const AdminLogin = () => {
               type="radio"
               name="role"
               value="staff"
-              checked={role === 'staff'}
+              checked={role === "staff"}
               onChange={handleRoleChange}
             />
             Staff Login
@@ -118,7 +122,7 @@ const AdminLogin = () => {
         <div className="forgot-password mt-3">
           <Link to="/forgot-password">Forgot Password?</Link>
           <br />
-          <Link className="mt-3" to="/signup">
+          <Link className="mt-3" to="/admin-signup">
             I don't have an account
           </Link>
         </div>

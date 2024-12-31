@@ -1,125 +1,222 @@
 .assign-services-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+h2, h3 {
+  color: #2d3436;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+h3 {
+  font-size: 1.8rem;
+  color: #34495e;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.form-select {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #dfe6e9;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: #74b9ff;
+  box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.2);
+  outline: none;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+  margin: 2rem 0;
+}
+
+.service-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.service-label {
+  display: block;
+  cursor: pointer;
+}
+
+.service-label h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  color: #2d3436;
+  text-align: left;
+}
+
+.service-label p {
+  color: #636e72;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.assign-button {
+  background: linear-gradient(45deg, #0984e3, #74b9ff);
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 2rem auto;
+  display: block;
+}
+
+.assign-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(9, 132, 227, 0.4);
+}
+
+.assignments-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 2rem;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.assignments-table th,
+.assignments-table td {
+  padding: 1.2rem;
+  text-align: left;
+}
+
+.assignments-table th {
+  background: #0984e3;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.assignments-table tr:hover {
+  background: #f5f6fa;
+}
+
+.service-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.remove-service-button {
+  background: #ff7675;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.remove-service-button:hover {
+  background: #d63031;
+  transform: scale(1.05);
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  background: #00b894;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+  animation: slideInRight 0.5s ease-out;
+  z-index: 1000;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .assignment-form {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
+  to {
+    opacity: 1;
   }
-  
-  .form-select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-  
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .service-card {
-    position: relative;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
-  
-  .service-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  .service-card input[type="checkbox"] {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    transform: scale(1.2);
-  }
-  
-  .service-label {
+}
+
+@media (max-width: 768px) {
+  .assign-services-container {
     padding: 1.5rem;
-    cursor: pointer;
-    display: block;
+    margin: 1rem;
   }
-  
-  .service-label h3 {
-    margin: 0 0 1rem 0;
-    color: #2c3e50;
+
+  .services-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .service-label p {
-    margin: 0.5rem 0;
-    color: #666;
+
+  h2 {
+    font-size: 2rem;
   }
-  
-  .assign-button {
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .assign-button:hover {
-    background: #2980b9;
-  }
-  
-  .current-assignments {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  }
-  
-  .assignments-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
-  .assignments-table th,
-  .assignments-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .assignments-table th {
-    background: #f8f9fa;
-    font-weight: 600;
-  }
-  
-  @media (max-width: 768px) {
-    .assign-services-container {
-      padding: 1rem;
-    }
-    
-    .services-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}

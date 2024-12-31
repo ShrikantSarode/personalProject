@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./css/StaffLogin.css";
 
 const StaffLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    
+
+    // Retrieve stored credentials from localStorage
+    const storedEmail = localStorage.getItem("staffEmail");
+    const storedPassword = localStorage.getItem("staffPassword");
+
     if (email === "" || password === "") {
-      toast.error('Please fill in all fields.', {
+      toast.error("Please fill in all fields.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -22,15 +25,16 @@ const StaffLogin = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        className: 'toast-message'
+        className: "toast-message",
       });
       return;
     }
 
-    if (email === 'staff@example.com' && password === 'staff123') {
-      localStorage.setItem('staffAuth', 'true');
-      
-      toast.success('Login successful! Redirecting...', {
+    // Check credentials
+    if (email === storedEmail && password === storedPassword) {
+      localStorage.setItem("staffAuth", "true");
+
+      toast.success("Login successful! Redirecting...", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -38,14 +42,14 @@ const StaffLogin = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        className: 'toast-message'
+        className: "toast-message",
       });
 
       setTimeout(() => {
         navigate("/staff/staff-dashboard");
       }, 2000);
     } else {
-      toast.error('Invalid credentials. Please try again.', {
+      toast.error("Invalid credentials. Please try again.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -53,7 +57,7 @@ const StaffLogin = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        className: 'toast-message'
+        className: "toast-message",
       });
     }
   };
@@ -98,8 +102,10 @@ const StaffLogin = () => {
           </form>
 
           <div className="forgot-password">
-            <Link to="/forgot-password" className="forgot-link">Forgot Password?</Link>
-            <Link to="/signup" className="signup-link">
+            <Link to="/forgot-password" className="forgot-link">
+              Forgot Password?
+            </Link>
+            <Link to="/staff-signup" className="signup-link">
               I don't have an Account 🤦‍♂️
             </Link>
           </div>

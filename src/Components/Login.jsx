@@ -1,38 +1,49 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 const Login = () => {
-  // State to store the form data
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false); // State to track if it's admin or user login
-  const navigate = useNavigate(); // Hook for navigation
+  // State to store form data and errors
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false); // State to track admin/user login
+  const navigate = useNavigate();
 
   // Handle form submission
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === '' || password === '') {
-      setError('Please fill in all fields.');
+
+    // Retrieve user data from localStorage
+    const storedEmail = localStorage.getItem("userEmail");
+    const storedPassword = localStorage.getItem("userPassword");
+
+    if (!email || !password) {
+      setError("Please fill in all fields.");
       return;
     }
-     navigate('/user/user-appointment')
+
+    if (email === storedEmail && password === storedPassword) {
+      // Successful login
+      navigate(isAdmin ? "/admin-dashboard" : "/user/user-appointment");
+    } else {
+      setError("Invalid email or password.");
+    }
   };
 
-  // Handle the change in email and password inputs
+  // Handle changes in email and password inputs
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   // Handle change in user/admin toggle
   const handleRoleChange = (e) => {
     const selectedRole = e.target.value;
-    setIsAdmin(selectedRole === 'admin');
-    
-    if (selectedRole === 'admin') {
-      // Navigate to the Admin Login page if "Admin Login" is selected
-      navigate('/admin-login');
+    setIsAdmin(selectedRole === "admin");
+
+    if (selectedRole === "admin") {
+      // Navigate to Admin Login page if "Admin Login" is selected
+      navigate("/admin-login");
     }
   };
 
@@ -40,11 +51,11 @@ const Login = () => {
     <>
       <div className="text-center d-flex justify-content-center">
         <div className="login-form text-center mt-5">
-          <h2>{isAdmin ? 'Admin Login' : 'User Login'}</h2>
+          <h2>{isAdmin ? "Admin Login" : "User Login"}</h2>
 
           {error && <div className="error-message">{error}</div>}
 
-          {/* Role Selection Radio Buttons */}
+          {/* Role Selection */}
           <div className="role-selection">
             <label>
               <input
