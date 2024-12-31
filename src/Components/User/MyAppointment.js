@@ -105,6 +105,19 @@ export default function MyAppointment() {
         "2025-01-04": ["09:00 AM", "01:00 PM", "04:00 PM"],
       },
     },
+    {
+      id: 6,
+      name: "Anjali",
+      speciality: "All Specialist",
+      services: [1, 2, 3, 4, 5, 6, 7],
+      availability: {
+        "2024-12-31": ["10:00 AM", "01:00 PM", "03:00 PM"],
+        "2025-01-01": ["09:00 AM", "11:00 AM", "02:00 PM"],
+        "2025-01-02": ["11:00 AM", "02:00 PM", "05:00 PM"],
+        "2025-01-03": ["08:00 AM", "12:00 PM", "03:00 PM"],
+        "2025-01-04": ["09:00 AM", "01:00 PM", "04:00 PM"],
+      },
+    },
   ];
 
   const timeSlots = [
@@ -172,11 +185,11 @@ export default function MyAppointment() {
   };
 
   return (
-    <div className="appointment-container">
+    <div className="appointment-container ">
       {/* Progress Bar - Same as before */}
 
       {step === 1 && (
-        <div className="service-selection">
+        <div className="service-selection text-center">
           <h2>Select Services</h2>
           <div className="services-grid">
             {services.map((service) => (
@@ -189,13 +202,13 @@ export default function MyAppointment() {
                 }`}
                 onClick={() => handleServiceSelect(service)}
               >
-                <h3>{service.name}</h3>
+                <h5>{service.name}</h5>
                 <p className="price">₹{service.price}</p>
                 <p className="duration">{service.duration} min</p>
               </div>
             ))}
           </div>
-          <div className="service-summary">
+          <div className="service-summary ">
             <p>Total Amount: ₹{totalAmount}</p>
             <p>Total Duration: {totalDuration} min</p>
             <button
@@ -298,12 +311,7 @@ export default function MyAppointment() {
                 <strong>Total Duration:</strong> {totalDuration} min
               </p>
             </div>
-            <button
-              className="pay-button"
-              onClick={() => console.log("Processing payment:", appointment)}
-            >
-              Pay Now ₹{totalAmount}
-            </button>
+            <button className="pay-button">Pay Now ₹{totalAmount}</button>
           </div>
         </div>
       )}

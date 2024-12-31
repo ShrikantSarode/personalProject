@@ -95,8 +95,8 @@ export default function FavoriteService() {
                 ♥
               </button>
             </div>
-            <div className="service-info">
-              <h3>{service.name}</h3>
+            <div className="service-info text-center">
+              <h6>{service.name}</h6>
               <p className="price">{service.price}</p>
               <p className="duration">{service.duration}</p>
             </div>

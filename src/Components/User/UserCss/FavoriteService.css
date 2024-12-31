@@ -203,5 +203,5 @@
 }
 
 .favorite-button.active {
-  color: pink; /* Color for the active heart */
+  color: rgb(255, 45, 80); /* Color for the active heart */
 }

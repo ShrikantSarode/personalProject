@@ -96,9 +96,9 @@ export default function UserProfile() {
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group ">
           <label>Favorite Salon Services:</label>
-          <div className="services-grid">
+          <div className="services-grid text-center">
             {salonServices.map((service) => (
               <label key={service} className="service-checkbox">
                 <input

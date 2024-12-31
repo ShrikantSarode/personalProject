@@ -1,8 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./UserCss/UserHeader.css";
 
 export default function UserHeader() {
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleLogout = () => {
+    // Clear user session (e.g., remove token from localStorage)
+    localStorage.removeItem("authToken");
+    // Redirect to the login page
+    navigate("/login");
+  };
+
   return (
     <header className="user-header">
       <div className="header-container">
@@ -25,12 +34,6 @@ export default function UserHeader() {
                 My Appointments
               </Link>
             </li>
-            {/* <li>
-              <Link to="/services" className="nav-link">
-                <i className="fas fa-cut"></i>
-                Services
-              </Link>
-            </li> */}
             <li>
               <Link to="/user/user-profile" className="nav-link">
                 <i className="fas fa-user"></i>
@@ -43,20 +46,22 @@ export default function UserHeader() {
         <div className="user-actions">
           <div className="notification-bell">
             <i className="fas fa-bell"></i>
-            <span className="notification-badge">3</span>
+          
+              {/* <span className="notification-badge"></span> */}
+          
           </div>
 
-          <div className="user-profile">
+          <div className="user-profile1">
             <img
               src="https://via.placeholder.com/40"
               alt="User"
-              className="user-avatar"
+              className="user-avatar me-3"
             />
             <span className="user-name">Shrikant</span>
           </div>
 
-          <button className="logout-btn">
-            <i className="fas fa-sign-out-alt"></i>
+          <button className=" btn btn-danger" onClick={handleLogout}>
+            <i className="fas fa-sign-out-alt"></i>Logout
           </button>
         </div>
       </div>
