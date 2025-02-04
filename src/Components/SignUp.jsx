@@ -1,36 +1,46 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "./axiosConfig/axiosConfig";  // Import the Axios instance
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/Signup.css";
 
 export default function SignUp() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Please fill in both fields.");
+    if (!name || !email || !password || !role) {
+      setError("Please fill in all fields.");
       toast.error("Please fill in all fields!");
       return;
     }
 
     try {
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userPassword", password);
+      const response = await axiosInstance.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+        role
+      });
 
-      toast.success("Sign up successful! Redirecting to login...");
-
-      setTimeout(() => {
-        setEmail("");
-        setPassword("");
-        setError("");
-        navigate("/login");
-      }, 2000);
+      if (response.status === 200) {
+        toast.success("Sign up successful! Redirecting to login...");
+        setTimeout(() => {
+          setName("");
+          setEmail("");
+          setPassword("");
+          setRole("");
+          setError("");
+          navigate("/login");
+        }, 2000);
+      }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       console.error("Sign up error:", error);
@@ -43,6 +53,18 @@ export default function SignUp() {
         <h2 className="signup-title">Sign Up</h2>
 
         <form onSubmit={handleSubmit} className="signup-form">
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              required
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -63,6 +85,18 @@ export default function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="role">Role</label>
+            <input
+              type="text"
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              placeholder="Enter your role"
               required
             />
           </div>
