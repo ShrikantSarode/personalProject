@@ -40,9 +40,9 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="dashboard-container container-fluid">
+    <div className="dashboard-container container-fluid p-0">
       {/* Sidebar */}
-      <div className={`admin-sidebar ${isSidebarOpen ? "open" : ""}`}>
+      <div className={`admin-sidebar ${isSidebarOpen ? "open" : ""} `} >
         <nav className="sidebar-nav">
           <Link to="/admin/admin-dashboard" className="nav-item active">
             <i className="fas fa-home"></i> Dashboard
