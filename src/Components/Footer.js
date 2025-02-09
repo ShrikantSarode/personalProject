@@ -9,9 +9,9 @@ export default function Footer() {
         <div className="section fade-in">
           <h4 className="heading">Contact Us</h4>
           <p>123 Beauty Lane</p>
-          <p>Cityville, ST 12345</p>
-          <p>Phone: (123) 456-7890</p>
-          <p>Email: info@salonname.com</p>
+          <p>Nashik,422101</p>
+          <p>Phone: 8796225860</p>
+          <p>Email: info@GromEasy.com</p>
         </div>
 
         {/* Social Media Links */}
