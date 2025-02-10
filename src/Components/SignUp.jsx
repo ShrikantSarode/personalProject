@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./css/Signup.css";
 
 export default function SignUp() {
-<<<<<<< HEAD
   const [name, setName] = useState(""); // State for name
   const [email, setEmail] = useState(""); // State for email
   const [password, setPassword] = useState(""); // State for password
@@ -14,23 +13,11 @@ export default function SignUp() {
   const [roleId, setRoleId] = useState(3); // Default to "3" (customer role)
   const [error, setError] = useState(""); // State for error
   const navigate = useNavigate(); // Use navigate for routing
-=======
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [roleId, setRoleId] = useState(3);
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
     // Check if all fields are filled
-=======
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
     if (!email || !password || !name || !mobile) {
       setError("Please fill in all fields.");
       toast.error("Please fill in all fields!");
@@ -38,16 +25,12 @@ export default function SignUp() {
     }
 
     try {
-<<<<<<< HEAD
       // Make the API request to register the user
-=======
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
       const response = await fetch("https://localhost:7111/api/User/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-<<<<<<< HEAD
         body: JSON.stringify({
           email,
           password,
@@ -55,20 +38,14 @@ export default function SignUp() {
           mobile,
           roleId,
         }),
-=======
-        body: JSON.stringify({ email, password, name, mobile, roleId }),
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("Sign up successful! Redirecting to login...");
-<<<<<<< HEAD
 
         // Reset form fields and navigate to login page after a delay
-=======
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
         setTimeout(() => {
           setEmail("");
           setPassword("");
@@ -80,11 +57,6 @@ export default function SignUp() {
       } else {
         setError(data.message || "Something went wrong.");
         toast.error(data.message || "Something went wrong. Please try again.");
-<<<<<<< HEAD
-=======
-        console.log(data.message);
-        
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -98,7 +70,6 @@ export default function SignUp() {
         <h2 className="signup-title">Sign Up</h2>
 
         <form onSubmit={handleSubmit} className="signup-form">
-<<<<<<< HEAD
           {/* Name Input */}
           <div className="form-group">
             <label htmlFor="name">Name</label>
@@ -136,74 +107,6 @@ export default function SignUp() {
               placeholder="Enter your password"
               required
             />
-=======
-          {/* Row 1: Name, Email, Password */}
-          <div className="row">
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Row 2: Mobile & Role */}
-          <div className="row">
-            <div className="form-group">
-              <label htmlFor="mobile">Mobile</label>
-              <input
-                type="text"
-                id="mobile"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-                placeholder="Enter your mobile number"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="roleId">Role</label>
-              <select
-                id="roleId"
-                value={roleId}
-                onChange={(e) => setRoleId(e.target.value)}
-                required
-              >
-                <option value="1">Admin</option>
-                <option value="2">Staff</option>
-                <option value="3">Customer</option>
-              </select>
-            </div>
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
           </div>
 
           {/* Mobile Input */}
@@ -244,7 +147,6 @@ export default function SignUp() {
         </form>
       </div>
 
-<<<<<<< HEAD
       {/* Toast Container for Notifications */}
       <ToastContainer
         position="top-right"
@@ -258,9 +160,6 @@ export default function SignUp() {
         pauseOnHover
         theme="colored"
       />
-=======
-      <ToastContainer position="top-right" autoClose={2000} theme="colored" />
->>>>>>> 2043bc3493fdc178d542b2b6982580ddfb85e290
     </div>
   );
 }

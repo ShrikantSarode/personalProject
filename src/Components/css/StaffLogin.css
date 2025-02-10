@@ -1,72 +1,67 @@
 .login-form {
   background: rgba(255, 255, 255, 0.95);
-  padding: 1.5rem; /* Reduced padding */
-  border-radius: 10px; /* Smaller border radius */
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(8px);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   width: 100%;
-  max-width: 320px; /* Reduced max-width */
-  animation: slideUp 0.4s ease-out;
+  max-width: 400px;
+  animation: slideUp 0.5s ease-out;
 }
 
 .login-title {
   color: #2c3e50;
-  margin-bottom: 1.5rem; /* Less spacing */
-  font-size: 1.3rem; /* Reduced font size */
+  margin-bottom: 2rem;
   font-weight: 600;
 }
 
 .input-group {
-  margin-bottom: 1rem; /* Less margin */
+  margin-bottom: 1.5rem;
 }
 
 .input-field {
   width: 100%;
-  padding: 10px; /* Smaller padding */
-  font-size: 0.9rem; /* Smaller font */
-  border: 1.5px solid #e2e8f0;
-  border-radius: 6px; /* Slightly smaller border radius */
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.9);
 }
 
 .input-field:focus {
   border-color: #4f46e5;
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
   outline: none;
 }
 
 .login-btn {
   width: 100%;
-  padding: 10px; /* Reduced button padding */
-  font-size: 0.9rem; /* Smaller font */
+  padding: 12px;
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
 .forgot-password {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  font-size: 0.85rem; /* Reduced text size */
+  gap: 0.5rem;
 }
 
 .forgot-link, .signup-link {
   color: #4f46e5;
   text-decoration: none;
   transition: color 0.3s ease;
-  font-size: 0.85rem; /* Smaller link text */
 }
 
 .forgot-link:hover, .signup-link:hover {
@@ -75,13 +70,13 @@
 
 /* Toast Animations */
 .toast-message {
-  animation: slideIn 0.4s ease-out;
+  animation: slideIn 0.5s ease-out;
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -91,7 +86,7 @@
 
 @keyframes slideIn {
   from {
-    transform: translateX(80%);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {
@@ -103,22 +98,7 @@
 /* Responsive Design */
 @media (max-width: 480px) {
   .login-form {
-    margin: 0.8rem;
-    padding: 1.2rem; /* Further reduced padding */
-    max-width: 280px; /* Even smaller on mobile */
-  }
-  .login-title {
-    font-size: 1.2rem;
-  }
-  .input-field {
-    padding: 9px;
-    font-size: 0.85rem;
-  }
-  .login-btn {
-    font-size: 0.85rem;
-    padding: 9px;
-  }
-  .forgot-password {
-    font-size: 0.8rem;
+    margin: 1rem;
+    padding: 1.5rem;
   }
 }
