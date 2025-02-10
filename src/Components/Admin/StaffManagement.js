@@ -1,31 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../axiosConfig/axiosConfig"; // Import the Axios instance
 import "./StaffManagement.css";
 
 const StaffManagement = () => {
   const [staffList, setStaffList] = useState([]);
   const [newStaff, setNewStaff] = useState({ name: "", email: "", role: "" });
 
+  useEffect(() => {
+    // Fetch the existing staff list from the backend
+    axiosInstance.get("/admin/staff")
+      .then(response => {
+        setStaffList(response.data);
+        console.log(response.data);
+        
+      })
+      .catch(error => {
+        console.error("There was an error fetching the staff list!", error);
+      });
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewStaff((prev) => ({ ...prev, [name]: value }));
   };
 
+  // add staff
   const handleAddStaff = (e) => {
     e.preventDefault();
     if (newStaff.name && newStaff.email && newStaff.role) {
-      setStaffList((prev) => [...prev, { ...newStaff, id: Date.now() }]);
-      setNewStaff({ name: "", email: "", role: "" });
+      axiosInstance.post("/admin/staff", newStaff)
+        .then(response => {
+          setStaffList((prev) => [...prev, response.data]);
+          setNewStaff({ name: "", email: "", role: "" });
+        })
+        .catch(error => {
+          console.error("There was an error adding the staff member!", error);
+        });
     }
   };
 
   const handleRemoveStaff = (id) => {
-    setStaffList((prev) => prev.filter((staff) => staff.id !== id));
+    axiosInstance.delete(`/admin/staff/${id}`)
+      .then(() => {
+        setStaffList((prev) => prev.filter((staff) => staff.id !== id));
+      })
+      .catch(error => {
+        console.error("There was an error deleting the staff member!", error);
+      });
   };
 
   return (
     <div className="staff-management-container">
       <h2 className="main-title">Staff Management</h2>
-      
+
       <div className="staff-grid">
         <div className="staff-list-section">
           <h3 className="section-title">Staff List</h3>
@@ -38,14 +65,14 @@ const StaffManagement = () => {
                   </div>
                   <div className="staff-info">
                     <h4>{staff.name}</h4>
-                    <p className="staff-role">{staff.role}</p>
+                    <p className="staff-role">{staff.position}</p>
                     <p className="staff-email">{staff.email}</p>
                   </div>
-                  <button 
+                  <button
                     className="remove-btn"
                     onClick={() => handleRemoveStaff(staff.id)}
                   >
-                    <i className="fas fa-trash"></i>
+                    <i className="fas fa-trash">X</i>
                   </button>
                 </div>
               ))}
@@ -82,13 +109,23 @@ const StaffManagement = () => {
               />
             </div>
             <div className="form-group">
+              <input
+                type="tel"
+                name="phoneNumber"
+                placeholder="Mobile Number"
+                value={newStaff.phoneNumber}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
               <select
                 name="role"
                 value={newStaff.role}
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select Role</option>
+                <option value="">Select Designation</option>
                 <option value="Manager">Manager</option>
                 <option value="Stylist">Stylist</option>
                 <option value="Assistant">Assistant</option>

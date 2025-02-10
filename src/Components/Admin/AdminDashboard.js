@@ -1,11 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./AdminDashboard.css";
+import axiosInstance from "../axiosConfig/axiosConfig";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [appointments, setAppointments] = useState([]);
+  const [dashboardData, setDashboardData] = useState({
+    totalAppointments: 0,
+    totalStaff: 0,
+    totalCustomers: 0,
+    totalRevenue: 0,
+  });
+
+  useEffect(() => {
+    // Fetch appointments from the backend
+    axiosInstance
+      .get("/admin/appointments")
+      .then((response) => {
+        setAppointments(response.data);
+        console.log(response.data);
+        
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the appointments!", error);
+      });
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuthToken");
@@ -16,39 +39,10 @@ export default function AdminDashboard() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const [appointments] = useState([
-    {
-      id: 1,
-      date: "2024-12-01",
-      customer: "John Wick",
-      staff: "Sarah Johnson",
-      service: "Haircut",
-      duration: "30 minutes",
-      status: "Completed",
-      payment: "Paid",
-      createdDate: "2024-11-25",
-    },
-    {
-      id: 2,
-      date: "2024-12-02",
-      customer: "James Bond",
-      staff: "Mike Smith",
-      service: "Facial",
-      duration: "1 hour",
-      status: "Pending",
-      payment: "Pending",
-      createdDate: "2024-11-26",
-    },
-  ]);
-
   return (
     <div className="dashboard-container container-fluid">
       {/* Sidebar */}
-      <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        {/* <div className="sidebar-header">
-          <h3>Admin Panel</h3>
-          <button className="close-sidebar" onClick={toggleSidebar}>×</button>
-        </div> */}
+      <div className={`admin-sidebar ${isSidebarOpen ? "open" : ""}`}>
         <nav className="sidebar-nav">
           <Link to="/admin/admin-dashboard" className="nav-item active">
             <i className="fas fa-home"></i> Dashboard
@@ -94,28 +88,28 @@ export default function AdminDashboard() {
           <div className="stat-card">
             <i className="fas fa-calendar-check stat-icon"></i>
             <div className="stat-info">
-              <h3>150</h3>
+              <h3>{dashboardData.totalAppointments}</h3>
               <p>Total Appointments</p>
             </div>
           </div>
           <div className="stat-card">
             <i className="fas fa-users stat-icon"></i>
             <div className="stat-info">
-              <h3>12</h3>
+              <h3>{dashboardData.totalStaff}</h3>
               <p>Total Staff</p>
             </div>
           </div>
           <div className="stat-card">
             <i className="fas fa-user-friends stat-icon"></i>
             <div className="stat-info">
-              <h3>450</h3>
+              <h3>{dashboardData.totalCustomers}</h3>
               <p>Total Customers</p>
             </div>
           </div>
           <div className="stat-card">
             <i className="fas fa-dollar-sign stat-icon"></i>
             <div className="stat-info">
-              <h3>₹75,000</h3>
+              <h3>₹{dashboardData.totalRevenue}</h3>
               <p>Total Revenue</p>
             </div>
           </div>
@@ -154,13 +148,17 @@ export default function AdminDashboard() {
                     <td>{appointment.service}</td>
                     <td>{appointment.duration}</td>
                     <td>
-                      <span className={`status-badge ${appointment.status.toLowerCase()}`}>
-                        {appointment.status}
+                      <span
+                        className={`status-badge ${appointment.status ? appointment.status.toLowerCase() : ''}`}
+                      >
+                        {appointment.status || 'Unknown'}
                       </span>
                     </td>
                     <td>
-                      <span className={`payment-badge ${appointment.payment.toLowerCase()}`}>
-                        {appointment.payment}
+                      <span
+                        className={`payment-badge ${appointment.payment ? appointment.payment.toLowerCase() : ''}`}
+                      >
+                        {appointment.payment || 'Pending'}
                       </span>
                     </td>
                     <td>
