@@ -164,7 +164,7 @@ const AppointmentManagement = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select Stylist</option>
+                <option value="">Select Staff</option>
                 {stylists.map((stylist) => (
                   <option key={stylist} value={stylist}>
                     {stylist}
